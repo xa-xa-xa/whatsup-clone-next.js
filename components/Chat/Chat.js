@@ -7,6 +7,7 @@ import { UserAvatar } from "../SideBar/SideBar";
 import { useRouter } from "next/router";
 
 const Chat = ({ users, id }) => {
+  // const Chat = ({ users, id }) => {
   const router = useRouter();
   const [user] = useAuthState(auth);
   const opponentsEmail = getOpponentsEmail(users, user);
@@ -44,5 +45,3 @@ const Container = styled.div`
     cursor: pointer;
   }
 `;
-
-const UserAvatar1 = 0;
