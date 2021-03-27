@@ -149,10 +149,11 @@ const InputContainer = styled.form`
   position: sticky;
 `;
 
-const MessagesContainer = styled.div`
+const MessagesContainer = styled.section`
   padding: 30px;
   background-color: #e5ded8;
-  min-height: calc(90vh - 84px);
+  overflow-y: scroll;
+  height: calc(100vh - 160px);
 `;
 
 const HeaderIcons = styled.div``;
