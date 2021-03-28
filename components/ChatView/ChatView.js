@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Avatar, IconButton } from "@material-ui/core";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -14,8 +14,10 @@ import MicIcon from "@material-ui/icons/Mic";
 import { AttachFile, MoreVert } from "@material-ui/icons";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import getOpponentsEmail from "../../utils/getOpponentsEmail";
+import TimeAgo from "timeago-react";
 
 const ChatView = ({ messages, chat }) => {
+  const EndOfMessagesRef = useRef(null);
   const [input, setInput] = useState("");
   const [user] = useAuthState(auth);
   const route = useRouter();
@@ -31,8 +33,6 @@ const ChatView = ({ messages, chat }) => {
   const [opponentsSnapshot] = useCollection(
     db.collection("users").where("email", "==", opponentsEmail)
   );
-
-  console.log("## opponentsSnapshot:", opponentsSnapshot);
 
   const renderMessages = () => {
     if (messagesSnapshot) {
@@ -55,10 +55,6 @@ const ChatView = ({ messages, chat }) => {
     }
   };
 
-  if (!messagesSnapshot) {
-    return <Loading />;
-  }
-
   const sendMessage = (e) => {
     e.preventDefault();
     db.collection("users").doc(user.uid).set(
@@ -76,10 +72,22 @@ const ChatView = ({ messages, chat }) => {
     });
 
     setInput("");
+    scrollToBottom();
   };
 
-  const opponent = opponentsSnapshot?.docs?.[0]?.data();
+  const scrollToBottom = () => {
+    EndOfMessagesRef.current.scrollIntoView({behavior: "smooth", block: "start"});
+  }
+
+
   // render
+  if (!messagesSnapshot) {
+    return <Loading />;
+  }
+
+
+
+  const opponent = opponentsSnapshot?.docs?.[0]?.data();
   return (
     <Container>
       <Header>
@@ -90,7 +98,14 @@ const ChatView = ({ messages, chat }) => {
         )}
         <HeaderInfo>
           <h3>{opponentsEmail}</h3>
-          <p>Last seen</p>
+          <p>
+            Last active:{" "}
+            {opponent?.lastSeen?.toDate() ? (
+              <TimeAgo datetime={opponent?.lastSeen?.toDate()} />
+            ) : (
+              "unavailable"
+            )}
+          </p>
         </HeaderInfo>
         <HeaderIcons>
           <IconButton>
@@ -104,7 +119,7 @@ const ChatView = ({ messages, chat }) => {
 
       <MessagesContainer>
         {renderMessages()}
-        {/* <EndOfMessage /> */}
+        <EndOfMessages ref={EndOfMessagesRef}  />
       </MessagesContainer>
 
       <InputContainer>
@@ -130,6 +145,13 @@ const ChatView = ({ messages, chat }) => {
 
 export default ChatView;
 
+const EndOfMessages = styled.input`
+display: inline-block;
+visibility: hidden;
+height: 0px;
+margin-bottom: 36px;
+`
+
 const Input = styled.input`
   flex: 1;
   align-items: center;
@@ -140,6 +162,7 @@ const Input = styled.input`
   bottom: 0;
   margin: 0 15px;
   background: whitesmoke;
+
 `;
 
 const InputContainer = styled.form`
