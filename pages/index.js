@@ -6,9 +6,9 @@ export default function Home() {
     <div>
       <Head>
         <title>WhatsUp Clone</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/fakeWhatsupLogo.png" />
       </Head>
-      <SideBar/> 
+      <SideBar />
       <footer></footer>
     </div>
   );
