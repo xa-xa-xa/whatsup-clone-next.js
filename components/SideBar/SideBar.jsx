@@ -82,6 +82,7 @@ const SidebarButton = styled(({ ...props }) => (
     background-color: red;
   }
   &&& {
+    border-radius: 0;
     font-weight: 600;
     border-top: 1px solid whitesmoke;
     border-bottom: 1px solid whitesmoke;
@@ -119,5 +120,14 @@ const Header = styled.section`
   border-bottom: 1px solid whitesmoke;
 `;
 const Container = styled.div`
-  width: 300px;
+  flex: 0.4;
+  border-right: 1px solid whitesmoke;
+  min-width: 300px;
+  overflow-x: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
