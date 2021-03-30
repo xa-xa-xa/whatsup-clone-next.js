@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Avatar, IconButton } from "@material-ui/core";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -17,7 +17,9 @@ import getOpponentsEmail from "../../utils/getOpponentsEmail";
 import TimeAgo from "timeago-react";
 
 const ChatView = ({ messages, chat }) => {
-  const EndOfMessagesRef = useRef(null);
+  // const EndOfMessagesRef = useRef(null);
+  // const [EndOfMessagesRef] = useRef(null);
+
   const [input, setInput] = useState("");
   const [user] = useAuthState(auth);
   const route = useRouter();
@@ -72,20 +74,28 @@ const ChatView = ({ messages, chat }) => {
     });
 
     setInput("");
-    scrollToBottom();
+    scrollToBottom(EndOfMessagesRef);
   };
 
-  const scrollToBottom = () => {
-    EndOfMessagesRef.current.scrollIntoView({behavior: "smooth", block: "start"});
-  }
+  const scrollToBottom = (node) => {
+    console.log(node);
+    if (node.current)
+            node.current.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+  };
 
+  const EndOfMessagesRef = useCallback((node) => {
+    if (node !== null) {
+      scrollToBottom(node);
+    }
+  }, []);
 
   // render
   if (!messagesSnapshot) {
     return <Loading />;
   }
-
-
 
   const opponent = opponentsSnapshot?.docs?.[0]?.data();
   return (
@@ -119,7 +129,7 @@ const ChatView = ({ messages, chat }) => {
 
       <MessagesContainer>
         {renderMessages()}
-        <EndOfMessages ref={EndOfMessagesRef}  />
+        <EndOfMessages ref={EndOfMessagesRef} />
       </MessagesContainer>
 
       <InputContainer>
@@ -145,12 +155,32 @@ const ChatView = ({ messages, chat }) => {
 
 export default ChatView;
 
+/// Workaround to use Ref for the scroll to view on page load
+function useHookWithRefCallback() {
+  const ref = useRef(null);
+  const setRef = useCallback((node) => {
+    if (ref.current) {
+      // Make sure to cleanup any events/references added to the last instance
+    }
+
+    if (node) {
+      // Check if a node is actually passed. Otherwise node would be null.
+      // You can now do what you need to, addEventListeners, measure, etc.
+    }
+
+    // Save a reference to the node
+    ref.current = node;
+  }, []);
+
+  return [setRef];
+}
+
 const EndOfMessages = styled.input`
-display: inline-block;
-visibility: hidden;
-height: 0px;
-margin-bottom: 36px;
-`
+  display: inline-block;
+  visibility: hidden;
+  height: 0px;
+  margin-bottom: 36px;
+`;
 
 const Input = styled.input`
   flex: 1;
@@ -162,7 +192,6 @@ const Input = styled.input`
   bottom: 0;
   margin: 0 15px;
   background: whitesmoke;
-
 `;
 
 const InputContainer = styled.form`
