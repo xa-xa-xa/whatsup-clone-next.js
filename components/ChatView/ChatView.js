@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { IconButton } from "@material-ui/core";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -49,6 +49,8 @@ const ChatView = ({ messages, chat }) => {
 
   const sendMessage = (e) => {
     e.preventDefault();
+    if (!input.length) return;
+
     db.collection("users").doc(user.uid).set(
       {
         lastSeen: firebase.firestore.FieldValue.serverTimestamp()
@@ -82,8 +84,6 @@ const ChatView = ({ messages, chat }) => {
   }, []);
 
   // render
-
-
   return (
     <>
       <Header user={user} chat={chat} />
@@ -93,7 +93,7 @@ const ChatView = ({ messages, chat }) => {
         <EndOfMessages ref={setAndScrollToBottomRef} />
       </MessagesContainer>
 
-      <InputContainer>
+      <InputContainer onSubmit={sendMessage}>
         <IconButton>
           <InsertEmoticonIcon />
         </IconButton>
@@ -106,7 +106,7 @@ const ChatView = ({ messages, chat }) => {
         <IconButton>
           <MicIcon />
         </IconButton>
-        <button hidden disabled={!input} type="submit" onClick={sendMessage}>
+        <button hidden disabled={!input} type="submit">
           send
         </button>
       </InputContainer>
