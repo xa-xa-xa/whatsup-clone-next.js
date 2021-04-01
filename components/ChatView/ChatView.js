@@ -17,9 +17,7 @@ import getOpponentsEmail from "../../utils/getOpponentsEmail";
 import TimeAgo from "timeago-react";
 
 const ChatView = ({ messages, chat }) => {
-  // const EndOfMessagesRef = useRef(null);
-  // const [EndOfMessagesRef] = useRef(null);
-
+  const [bottom, setBottom] = useState(null);
   const [input, setInput] = useState("");
   const [user] = useAuthState(auth);
   const route = useRouter();
@@ -74,21 +72,20 @@ const ChatView = ({ messages, chat }) => {
     });
 
     setInput("");
-    scrollToBottom(EndOfMessagesRef);
+    scrollToBottom(bottom);
   };
 
   const scrollToBottom = (node) => {
-    console.log(node);
-    if (node.current)
-            node.current.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
+    node.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
   };
 
-  const EndOfMessagesRef = useCallback((node) => {
-    if (node !== null) {
+  const setAndScrollToBottomRef = useCallback((node) => {
+    if (node) {
       scrollToBottom(node);
+      setBottom(node);
     }
   }, []);
 
@@ -129,7 +126,7 @@ const ChatView = ({ messages, chat }) => {
 
       <MessagesContainer>
         {renderMessages()}
-        <EndOfMessages ref={EndOfMessagesRef} />
+        <EndOfMessages ref={setAndScrollToBottomRef} />
       </MessagesContainer>
 
       <InputContainer>
@@ -144,36 +141,17 @@ const ChatView = ({ messages, chat }) => {
         />
         <IconButton>
           <MicIcon />
-          <button hidden disabled={!input} type="submit" onClick={sendMessage}>
-            send
-          </button>
         </IconButton>
+        <button hidden disabled={!input} type="submit" onClick={sendMessage}>
+          send
+        </button>
       </InputContainer>
     </Container>
   );
-};
+};;;;;
 
 export default ChatView;
 
-/// Workaround to use Ref for the scroll to view on page load
-function useHookWithRefCallback() {
-  const ref = useRef(null);
-  const setRef = useCallback((node) => {
-    if (ref.current) {
-      // Make sure to cleanup any events/references added to the last instance
-    }
-
-    if (node) {
-      // Check if a node is actually passed. Otherwise node would be null.
-      // You can now do what you need to, addEventListeners, measure, etc.
-    }
-
-    // Save a reference to the node
-    ref.current = node;
-  }, []);
-
-  return [setRef];
-}
 
 const EndOfMessages = styled.input`
   display: inline-block;
