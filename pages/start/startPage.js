@@ -1,8 +1,16 @@
 import styled from "styled-components";
+import Image from "next/image";
+
 
 const StartPage = () => {
   return (
     <StartPageContainer>
+      <Image
+        src="/fakeLogo.png"
+        alt="Picture of the author"
+        width={200}
+        height={200}
+      />
       <p>
         Welcome to <span>WhatsUp Clone</span>
       </p>
@@ -21,16 +29,16 @@ const StartPageContainer = styled.section`
   align-items: center;
   justify-content: center;
   background-color: #e5ded8;
-  height: calc(100vh - 160px);
+  height: 100%;
   > p {
     font-size: 1.5rem;
     > span {
       font-size: 2rem;
-        color: #3cbc28;
-        font-weight:600
-      }
-      > b {
-        color: #53764D;
-      }
+      color: #3cbc28;
+      font-weight: 600;
+    }
+    > b {
+      color: #53764d;
+    }
   }
 `;
