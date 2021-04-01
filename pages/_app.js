@@ -9,7 +9,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 function MyApp({ Component, pageProps }) {
   const [loaded, setLoaded] = useState(false);
   const [user, loading, error] = useAuthState(auth);
-  console.log(" 1 loading:", loading)
   useEffect(async () => {
     setLoaded(true);
     if (user) {
@@ -23,7 +22,6 @@ function MyApp({ Component, pageProps }) {
       );
     }
     if (!loading) setLoaded(false);
-    console.log(" 2 loading:", loading)
 
   }, [user, loading]);
 

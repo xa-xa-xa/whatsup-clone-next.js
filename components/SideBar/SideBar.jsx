@@ -79,11 +79,11 @@ const SidebarButton = styled(({ ...props }) => (
 ))`
   width: 100%;
   & .label {
-    background-color: red;
   }
   &&& {
     border-radius: 0;
     font-weight: 600;
+    color: #53764D;
     border-top: 1px solid whitesmoke;
     border-bottom: 1px solid whitesmoke;
   }
