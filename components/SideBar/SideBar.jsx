@@ -50,8 +50,10 @@ const SideBar = () => {
   return (
     <Container>
       <Header>
+        <CurrentUser>
         <UserAvatar src={user.photoURL} onClick={() => auth.signOut()} />
-        <div>{user.email}</div>
+          <div>{user.email}</div>
+          </CurrentUser>
         <IconsContainer>
           <IconButton>
             <MoreVertIcon />
@@ -66,9 +68,11 @@ const SideBar = () => {
         <SearchInput placeholder="search" />
       </Search>
       <SidebarButton onClick={createChat}>New chat</SidebarButton>
-      {chatsSnapshot?.docs.map((chat) => {
-        return <Chat key={chat.id} id={chat.id} users={chat.data().users} />;
-      })}
+      <ContactsContainer>
+        {chatsSnapshot?.docs.map((chat) => {
+          return <Chat key={chat.id} id={chat.id} users={chat.data().users} />;
+        })}
+      </ContactsContainer>
     </Container>
   );
 };
@@ -83,7 +87,7 @@ const SidebarButton = styled(({ ...props }) => (
   &&& {
     border-radius: 0;
     font-weight: 600;
-    color: #53764D;
+    color: #53764d;
     border-top: 1px solid whitesmoke;
     border-bottom: 1px solid whitesmoke;
   }
@@ -100,8 +104,15 @@ const Search = styled.div`
   align-items: center;
   padding: 20px;
   border-radius: 2px;
+  color: grey;
 `;
-const IconsContainer = styled.div``;
+const IconsContainer = styled.div`
+  width: 40px;
+  margin-right: -15px;
+`;
+
+const CurrentUser = styled.div`display: flex;
+align-items: center;`
 
 export const UserAvatar = styled(Avatar)`
   margin-right: 0.5em;
@@ -119,15 +130,18 @@ const Header = styled.section`
   height: 80px;
   border-bottom: 1px solid whitesmoke;
 `;
-const Container = styled.div`
-  flex: 0.4;
-  border-right: 1px solid whitesmoke;
-  min-width: 300px;
-  overflow-x: scroll;
 
+const ContactsContainer = styled.div`
+  height: calc(100vh - 200px);
+  overflow-y: scroll;
   ::-webkit-scrollbar {
     display: none;
   }
   -ms-overflow-style: none;
   scrollbar-width: none;
+`;
+const Container = styled.div`
+  flex: 0.4;
+  border-right: 1px solid whitesmoke;
+  min-width: 300px;
 `;
