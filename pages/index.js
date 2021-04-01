@@ -6,7 +6,7 @@ export default function Home() {
     <div>
       <Head>
         <title>WhatsUp Clone</title>
-        <link rel="icon" href="/fakeWhatsupLogo.png" />
+        <link rel="icon" href="/fakeLogo.png" />
       </Head>
       <SideBar />
       <footer></footer>

@@ -13,11 +13,12 @@ const Login = () => {
     <Container>
       <Head>
         <title>Login</title>
+        <link rel="icon" href="/fakeLogo.png" />
       </Head>
       <LoginContainer>
         <LogoContainer>
           <Image
-            src="/fakeWhatsupLogo.png"
+            src="/fakeLogo.png"
             alt="Picture of the author"
             width={200}
             height={200}

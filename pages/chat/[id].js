@@ -13,6 +13,7 @@ const ChatRoute = ({ chat, messages }) => {
     <Container>
       <Head>
         <title>Chat: {getOpponentsEmail(chat.users, user)}</title>
+        <link rel="icon" href="/fakeLogo.png" />
       </Head>
       <SideBar />
       <ChatContainer>

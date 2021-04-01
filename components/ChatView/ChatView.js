@@ -148,7 +148,7 @@ const ChatView = ({ messages, chat }) => {
       </InputContainer>
     </Container>
   );
-};;;;;
+};
 
 export default ChatView;
 
