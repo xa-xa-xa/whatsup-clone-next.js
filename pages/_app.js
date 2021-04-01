@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../styles/globals.css";
 import { db, auth } from "../firebase";
 import Login from "./login";
@@ -7,10 +7,13 @@ import firebase from "firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 function MyApp({ Component, pageProps }) {
+  const [loaded, setLoaded] = useState(false);
   const [user, loading, error] = useAuthState(auth);
-  useEffect(() => {
+  console.log(" 1 loading:", loading)
+  useEffect(async () => {
+    setLoaded(true);
     if (user) {
-      db.collection("users").doc(user.id).set(
+      await db.collection("users").doc(user.id).set(
         {
           email: user.email,
           lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
@@ -19,12 +22,15 @@ function MyApp({ Component, pageProps }) {
         { merge: true }
       );
     }
-  }, [user]);
+    if (!loading) setLoaded(false);
+    console.log(" 2 loading:", loading)
 
-  if (loading) {
+  }, [user, loading]);
+
+  if (loaded) {
     return <Loading />;
   }
-  if (!user && !loading) return <Login />;
+  if (!user) return <Login />;
 
   return <Component {...pageProps} />;
 }

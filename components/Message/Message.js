@@ -12,9 +12,6 @@ const Message = ({ user, message }) => {
     minute: "2-digit"
   });
 
-  // console.log("time:", getTimeFromTimeStamp(message.timestamp));
-  // console.log("time:", timeHM);
-
   return (
     <Container>
       <TypeOfMessage>
