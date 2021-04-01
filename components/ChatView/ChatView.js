@@ -1,20 +1,17 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import { Avatar, IconButton } from "@material-ui/core";
+import { useState, useCallback } from "react";
+import { IconButton } from "@material-ui/core";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import styled from "styled-components";
 import { auth, db } from "../../firebase";
 import firebase from "firebase";
+import MicIcon from "@material-ui/icons/Mic";
+import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 
+import Header from "../Header/Header";
 import Loading from "../Loading";
 import Message from "../Message/Message";
-
-import MicIcon from "@material-ui/icons/Mic";
-import { AttachFile, MoreVert } from "@material-ui/icons";
-import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
-import getOpponentsEmail from "../../utils/getOpponentsEmail";
-import TimeAgo from "timeago-react";
 
 const ChatView = ({ messages, chat }) => {
   const [bottom, setBottom] = useState(null);
@@ -29,14 +26,9 @@ const ChatView = ({ messages, chat }) => {
       .orderBy("timestamp", "asc")
   );
 
-  const opponentsEmail = getOpponentsEmail(chat.users, user);
-  const [opponentsSnapshot] = useCollection(
-    db.collection("users").where("email", "==", opponentsEmail)
-  );
-
   const renderMessages = () => {
     if (messagesSnapshot) {
-      return messagesSnapshot.docs.map((message) => (
+      return messagesSnapshot.docs?.map((message) => (
         <Message
           key={message.id}
           user={message.data().user}
@@ -90,39 +82,11 @@ const ChatView = ({ messages, chat }) => {
   }, []);
 
   // render
-  if (!messagesSnapshot) {
-    return <Loading />;
-  }
 
-  const opponent = opponentsSnapshot?.docs?.[0]?.data();
+
   return (
-    <Container>
-      <Header>
-        {opponent ? (
-          <Avatar src={opponent?.photoURL} />
-        ) : (
-          <Avatar>{opponentsEmail[0].toUpperCase()}</Avatar>
-        )}
-        <HeaderInfo>
-          <h3>{opponentsEmail}</h3>
-          <p>
-            Last active:{" "}
-            {opponent?.lastSeen?.toDate() ? (
-              <TimeAgo datetime={opponent?.lastSeen?.toDate()} />
-            ) : (
-              "unavailable"
-            )}
-          </p>
-        </HeaderInfo>
-        <HeaderIcons>
-          <IconButton>
-            <AttachFile />
-          </IconButton>
-          <IconButton>
-            <MoreVert />
-          </IconButton>
-        </HeaderIcons>
-      </Header>
+    <>
+      <Header user={user} chat={chat} />
 
       <MessagesContainer>
         {renderMessages()}
@@ -146,12 +110,11 @@ const ChatView = ({ messages, chat }) => {
           send
         </button>
       </InputContainer>
-    </Container>
+    </>
   );
 };
 
 export default ChatView;
-
 
 const EndOfMessages = styled.input`
   display: inline-block;
@@ -184,32 +147,4 @@ const MessagesContainer = styled.section`
   background-color: #e5ded8;
   overflow-y: scroll;
   height: calc(100vh - 160px);
-`;
-
-const HeaderIcons = styled.div``;
-const HeaderInfo = styled.div`
-  flex: 1;
-  margin-left: 1em;
-  > h3 {
-    margin: 0;
-    margin-top: 8px;
-  }
-  > p {
-    margin-top: 4px;
-    color: grey;
-  }
-`;
-
-const Header = styled.div`
-  display: flex;
-  position: sticky;
-  z-index: 2;
-  top: 0;
-  padding: 0.75em;
-  align-items: center;
-`;
-
-const Container = styled.div`
-  height: 90px;
-  border-bottom: 1px solid whitesmoke;
 `;
