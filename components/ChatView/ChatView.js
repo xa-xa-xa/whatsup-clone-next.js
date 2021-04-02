@@ -8,6 +8,7 @@ import firebase from "firebase";
 import MicIcon from "@material-ui/icons/Mic";
 import styled from "styled-components";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
+import SendIcon from "@material-ui/icons/Send";
 
 import Header from "../Header/Header";
 import Message from "../Message/Message";
@@ -118,8 +119,9 @@ const ChatView = ({ messages, chat }) => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <IconButton>
-          <MicIcon />
+        <IconButton type="submit">
+          <SendIcon />
+          {/* <MicIcon /> */}
         </IconButton>
         <button hidden disabled={!input} type="submit">
           send
