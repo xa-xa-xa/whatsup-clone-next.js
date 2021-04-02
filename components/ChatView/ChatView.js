@@ -1,22 +1,24 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useRef } from "react";
 import { IconButton } from "@material-ui/core";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
-import styled from "styled-components";
 import { auth, db } from "../../firebase";
 import firebase from "firebase";
 import MicIcon from "@material-ui/icons/Mic";
+import styled from "styled-components";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 
 import Header from "../Header/Header";
-import Loading from "../Loading";
 import Message from "../Message/Message";
+import EmojiPicker from "../EmojiPicker/EmojiPicker";
 
 const ChatView = ({ messages, chat }) => {
+  const [user] = useAuthState(auth);
+  const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
+  const inputRef = useRef(null);
   const [bottom, setBottom] = useState(null);
   const [input, setInput] = useState("");
-  const [user] = useAuthState(auth);
   const route = useRouter();
   const [messagesSnapshot] = useCollection(
     db
@@ -83,6 +85,11 @@ const ChatView = ({ messages, chat }) => {
     }
   }, []);
 
+  const handleOpenEmojiPicker = () => {
+    setOpenEmojiPicker(!openEmojiPicker);
+    inputRef.current.focus();
+  };
+
   // render
   return (
     <>
@@ -94,14 +101,22 @@ const ChatView = ({ messages, chat }) => {
       </MessagesContainer>
 
       <InputContainer onSubmit={sendMessage}>
-        <IconButton>
+        <IconButton onClick={handleOpenEmojiPicker}>
           <InsertEmoticonIcon />
         </IconButton>
+        {openEmojiPicker && (
+          <EmojiPicker
+            inputRef={inputRef}
+            setInput={setInput}
+            setOpenEmojiPicker={setOpenEmojiPicker}
+          />
+        )}
 
         <Input
+          type="text"
+          ref={inputRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          type="text"
         />
         <IconButton>
           <MicIcon />
