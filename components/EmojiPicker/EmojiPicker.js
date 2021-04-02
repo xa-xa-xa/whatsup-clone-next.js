@@ -19,6 +19,7 @@ const EmojiPicker = ({ setInput, inputRef, setOpenEmojiPicker }) => {
       <Picker
         emoji=""
         title=""
+        size={20}
         set="apple"
         onSelect={(emoji) => insertEmoji(emoji)}
         showPreview={false}
