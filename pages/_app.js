@@ -5,6 +5,7 @@ import Login from "./login";
 import Loading from "../components/Loading";
 import firebase from "firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import Store from "../store/reactStore";
 
 function MyApp({ Component, pageProps }) {
   const [loaded, setLoaded] = useState(false);
@@ -30,7 +31,11 @@ function MyApp({ Component, pageProps }) {
   }
   if (!user) return <Login />;
 
-  return <Component {...pageProps} />;
+  return (
+    <Store>
+      <Component {...pageProps} />
+    </Store>
+  );
 }
 
 export default MyApp;
