@@ -5,6 +5,8 @@ import { auth, db } from "../../firebase";
 import getOpponentsEmail from "../../utils/getOpponentsEmail";
 import { UserAvatar } from "../SideBar/SideBar";
 import { useRouter } from "next/router";
+import { Context } from "../../store/reactStore";
+import { useContext } from "react";
 
 const Chat = ({ users, id }) => {
   // const Chat = ({ users, id }) => {
@@ -15,8 +17,10 @@ const Chat = ({ users, id }) => {
     db.collection("users").where("email", "==", opponentsEmail)
   );
   const opponent = opponentsSnapshot?.docs?.[0]?.data();
+  const [state, dispatch] = useContext(Context);
   const openChat = () => {
     router.push(`/chat/${id}`);
+    dispatch({ type: "CLOSE_SIDEBAR" });
   };
 
   // render
