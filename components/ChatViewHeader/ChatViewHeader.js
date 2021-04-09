@@ -2,11 +2,15 @@ import styled from "styled-components";
 import getOpponentsEmail from "../../utils/getOpponentsEmail";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { AttachFile, MoreVert } from "@material-ui/icons";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+
 import { db } from "../../firebase";
 import TimeAgo from "timeago-react";
-import { Avatar, IconButton } from "@material-ui/core";
+import { Avatar, Hidden, IconButton } from "@material-ui/core";
+import { useContext } from "react";
+import { Context } from "../../store/reactStore";
 
-const Header = ({ user, chat }) => {
+const ChatViewHeader = ({ user, chat }) => {
   let opponent = null;
   let opponentsEmail = null;
   if (chat) {
@@ -17,8 +21,18 @@ const Header = ({ user, chat }) => {
     opponent = opponentsSnapshot?.docs?.[0]?.data();
   }
 
+  const [state, dispatch] = useContext(Context);
+  const handleShowSideBar = () => dispatch({ type: "TOGGLE_SIDEBAR" });
+
   return (
     <HeaderContainer>
+      {/* show BackToSideBar on mobile only */}
+      <Hidden smUp>
+        <BackToSideBar onClick={handleShowSideBar}>
+          <ArrowBackIcon />
+        </BackToSideBar>
+      </Hidden>
+
       {chat ? (
         opponent ? (
           <Avatar src={opponent?.photoURL} />
@@ -53,7 +67,14 @@ const Header = ({ user, chat }) => {
   );
 };
 
-export default Header;
+export default ChatViewHeader;
+const BackToSideBar = styled(({ ...props }) => <IconButton {...props} />)`
+  &&& {
+    display: flex;
+    height: 30px;
+    width: 30px;
+  }
+`;
 
 const HeaderIcons = styled.div``;
 const HeaderInfo = styled.div`

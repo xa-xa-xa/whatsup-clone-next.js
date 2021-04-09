@@ -8,6 +8,10 @@ import { auth, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import Chat from "../Chat/Chat";
+import Drawer from "@material-ui/core/Drawer";
+import Hidden from "@material-ui/core/Hidden";
+import { useContext } from "react";
+import { Context } from "../../store/reactStore";
 
 const SideBar = () => {
   const [user] = useAuthState(auth);
@@ -47,13 +51,14 @@ const SideBar = () => {
         chat.data().users.find((user) => user === opponentsEmail)?.length > 0
     );
   };
-  return (
-    <Container>
+
+  const sideBar = (
+    <>
       <Header>
         <CurrentUser>
-        <UserAvatar src={user.photoURL} onClick={() => auth.signOut()} />
+          <UserAvatar src={user.photoURL} onClick={() => auth.signOut()} />
           <div>{user.email}</div>
-          </CurrentUser>
+        </CurrentUser>
         <IconsContainer>
           <IconButton>
             <MoreVertIcon />
@@ -67,18 +72,45 @@ const SideBar = () => {
         <SearchIcon />
         <SearchInput placeholder="search" />
       </Search>
-      <SidebarButton onClick={createChat}>New chat</SidebarButton>
+      <CreateChatButton onClick={createChat}>New chat</CreateChatButton>
       <ContactsContainer>
         {chatsSnapshot?.docs.map((chat) => {
           return <Chat key={chat.id} id={chat.id} users={chat.data().users} />;
         })}
       </ContactsContainer>
-    </Container>
+    </>
+  );
+
+  const [{ showSidebar }, dispatch] = useContext(Context);
+  const handleDrawerToggle = () => dispatch({ type: "TOGGLE_SIDEBAR" });
+
+  // Render
+  return (
+    <>
+      <Hidden smUp={true} implementation="css">
+        <Drawer
+          variant="temporary"
+          anchor="left"
+          open={showSidebar}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true // Better open performance on mobile.
+          }}
+        >
+          {sideBar}
+        </Drawer>
+      </Hidden>
+      <Hidden xsDown={true} implementation="css">
+        <Drawer variant="permanent" open>
+          {sideBar}
+        </Drawer>
+      </Hidden>
+    </>
   );
 };
 export default SideBar;
 
-const SidebarButton = styled(({ ...props }) => (
+const CreateChatButton = styled(({ ...props }) => (
   <Button {...props} variant="contained" disableElevation={true} />
 ))`
   width: 100%;
@@ -99,7 +131,7 @@ const SearchInput = styled.input`
   flex: 1;
   font-size: 1.25em;
 `;
-const Search = styled.div`
+const Search = styled.section`
   display: flex;
   align-items: center;
   padding: 20px;
@@ -111,8 +143,10 @@ const IconsContainer = styled.div`
   margin-right: -15px;
 `;
 
-const CurrentUser = styled.div`display: flex;
-align-items: center;`
+const CurrentUser = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 export const UserAvatar = styled(Avatar)`
   margin-right: 0.5em;
@@ -131,7 +165,7 @@ const Header = styled.section`
   border-bottom: 1px solid whitesmoke;
 `;
 
-const ContactsContainer = styled.div`
+const ContactsContainer = styled.section`
   height: calc(100vh - 200px);
   overflow-y: scroll;
   ::-webkit-scrollbar {
@@ -139,9 +173,4 @@ const ContactsContainer = styled.div`
   }
   -ms-overflow-style: none;
   scrollbar-width: none;
-`;
-const Container = styled.div`
-  flex: 0.4;
-  border-right: 1px solid whitesmoke;
-  min-width: 300px;
 `;
