@@ -5,7 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { auth, db } from "../../firebase";
 import firebase from "firebase";
-import MicIcon from "@material-ui/icons/Mic";
+// import MicIcon from "@material-ui/icons/Mic";
 import styled from "styled-components";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import SendIcon from "@material-ui/icons/Send";
@@ -93,7 +93,7 @@ const ChatView = ({ messages, chat }) => {
 
   // render
   return (
-    <>
+    <div>
       <Header user={user} chat={chat} />
 
       <MessagesContainer>
@@ -127,7 +127,7 @@ const ChatView = ({ messages, chat }) => {
           send
         </button>
       </InputContainer>
-    </>
+    </div>
   );
 };
 
