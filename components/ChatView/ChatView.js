@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { IconButton } from "@material-ui/core";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -10,7 +10,7 @@ import styled from "styled-components";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import SendIcon from "@material-ui/icons/Send";
 
-import Header from "../Header/Header";
+import ChatViewHeader from "../ChatViewHeader/ChatViewHeader";
 import Message from "../Message/Message";
 import EmojiPicker from "../EmojiPicker/EmojiPicker";
 
@@ -73,10 +73,12 @@ const ChatView = ({ messages, chat }) => {
   };
 
   const scrollToBottom = (node) => {
-    node.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+    if (node) {
+      node.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
   };
 
   const setAndScrollToBottomRef = useCallback((node) => {
@@ -91,11 +93,15 @@ const ChatView = ({ messages, chat }) => {
     inputRef.current.focus();
   };
 
+  // scroll to bottom once a new chat opened
+  useEffect(() => {
+    scrollToBottom(bottom);
+  }, []);
+
   // render
   return (
     <div>
-      <Header user={user} chat={chat} />
-
+      <ChatViewHeader user={user} chat={chat} />
       <MessagesContainer>
         {renderMessages()}
         <EndOfMessages ref={setAndScrollToBottomRef} />
@@ -119,13 +125,14 @@ const ChatView = ({ messages, chat }) => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <IconButton type="submit">
+        <IconButton
+          type="submit"
+          disabled={!input}
+          onClick={scrollToBottom(bottom)}
+        >
           <SendIcon />
           {/* <MicIcon /> */}
         </IconButton>
-        <button hidden disabled={!input} type="submit">
-          send
-        </button>
       </InputContainer>
     </div>
   );
@@ -141,9 +148,9 @@ const EndOfMessages = styled.input`
 `;
 
 const Input = styled.input`
-  flex: 1;
   align-items: center;
   padding: 10px;
+  flex: 1;
   border: none;
   border-radius: 8px;
   font-size: 1.25em;
@@ -165,3 +172,6 @@ const MessagesContainer = styled.section`
   overflow-y: scroll;
   height: calc(100vh - 160px);
 `;
+
+const ChatViewContainer = styled.div(`
+`);

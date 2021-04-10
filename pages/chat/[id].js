@@ -5,21 +5,26 @@ import ChatView from "../../components/ChatView/ChatView";
 import { auth, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import getOpponentsEmail from "../../utils/getOpponentsEmail";
+import breakPoints from "../../styles/breakPoints";
 
 const ChatRoute = ({ chat, messages }) => {
   const [user] = useAuthState(auth);
 
   return (
-    <Container>
+    <>
       <Head>
-        <title>Chat: {getOpponentsEmail(chat.users, user)}</title>
+        <title>Opponent: {getOpponentsEmail(chat.users, user)}</title>
         <link rel="icon" href="/fakeLogo.png" />
       </Head>
-      <SideBar />
-      <ChatContainer>
-        <ChatView messages={messages} chat={chat} />
-      </ChatContainer>
-    </Container>
+      <Container>
+        <SideBarContainer>
+          <SideBar />
+        </SideBarContainer>
+        <ChatContainer>
+          <ChatView messages={messages} chat={chat} />
+        </ChatContainer>
+      </Container>
+    </>
   );
 };
 
@@ -43,24 +48,32 @@ export async function getServerSideProps(context) {
   // Prepare the chats
   const chatResponse = await ref.get();
   const chat = { id: chatResponse.id, ...chatResponse.data() };
-  // console.log(chat, messages);
   return {
     props: { messages: JSON.stringify(messages), chat: chat }
   };
 }
 
+// STYLES
+const SideBarContainer = styled.section`
+  @media screen and (${breakPoints.device.sm}) {
+    width: 270px;
+  }
+`;
 const ChatContainer = styled.section`
-  flex: 1;
-  overflow: scroll;
-  height: 100vh;
-
   ::-webkit-scrollbar {
     display: none;
   }
   --ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+  overflow: scroll;
+  width: 100vw;
+
+  @media screen and (${breakPoints.device.sm}) {
+    flex: 1;
+  }
 `;
 
 const Container = styled.div`
   display: flex;
+  width: 100vw;
 `;

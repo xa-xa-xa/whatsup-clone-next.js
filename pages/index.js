@@ -1,6 +1,6 @@
 import Head from "next/head";
 import styled from "styled-components";
-import Header from "../components/Header/Header";
+import ChatViewHeader from "../components/ChatViewHeader/ChatViewHeader";
 import SideBar from "../components/SideBar/SideBar";
 import StartPage from "./start/startPage";
 
@@ -14,11 +14,10 @@ export default function Home() {
       <Container>
         <SideBar />
         <RightPane>
-          <Header />
+          <ChatViewHeader />
           <StartPage />
         </RightPane>
       </Container>
-
       {/* <footer></footer> */}
     </div>
   );
