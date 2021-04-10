@@ -128,7 +128,6 @@ const ChatView = ({ messages, chat }) => {
         <IconButton
           type="submit"
           disabled={!input}
-          color="success"
           onClick={scrollToBottom(bottom)}
         >
           <SendIcon />
