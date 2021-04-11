@@ -38,7 +38,6 @@ const SideBar = () => {
     }
 
     if (!chatAlreadyExists(input)) {
-      console.log("create chat 2!", input);
       db.collection("chats").add({
         users: [user.email, input]
       });
