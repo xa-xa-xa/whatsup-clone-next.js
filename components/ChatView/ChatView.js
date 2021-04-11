@@ -144,7 +144,6 @@ const EndOfMessages = styled.input`
   display: inline-block;
   visibility: hidden;
   height: 0px;
-  margin-bottom: 36px;
 `;
 
 const Input = styled.input`
@@ -161,9 +160,8 @@ const Input = styled.input`
 
 const InputContainer = styled.form`
   display: flex;
-  align-items: center;
   padding: 10px;
-  position: sticky;
+  /* position: absolute; */
 `;
 
 const MessagesContainer = styled.section`
