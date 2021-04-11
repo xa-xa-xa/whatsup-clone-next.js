@@ -94,7 +94,7 @@ const ChatView = ({ messages, chat }) => {
     inputRef.current.focus();
   };
 
-  // scroll to bottom once a new chat opened
+  // Scroll to bottom once a new chat opened
   useEffect(() => {
     scrollToBottom(bottom);
   }, []);
@@ -159,7 +159,7 @@ const Input = styled.input`
   margin: 0 5px;
   background: whitesmoke;
   @media screen and (${breakPoints.device.sm}) {
-    margin: 0 15px;
+    margin: 0 10px;
   }
 `;
 
@@ -169,7 +169,6 @@ const InputContainer = styled.form`
   position: sticky;
   @media screen and (${breakPoints.device.sm}) {
     padding: 10px;
-    margin: 0 15px;
   }
 `;
 

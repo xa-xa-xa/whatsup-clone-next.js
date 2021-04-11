@@ -56,7 +56,7 @@ export async function getServerSideProps(context) {
 // STYLES
 const SideBarContainer = styled.section`
   @media screen and (${breakPoints.device.sm}) {
-    width: 270px;
+    width: 280px;
   }
 `;
 const ChatContainer = styled.section`
@@ -67,7 +67,6 @@ const ChatContainer = styled.section`
   scrollbar-width: none; /* Firefox */
   overflow: scroll;
   width: 100vw;
-
   @media screen and (${breakPoints.device.sm}) {
     flex: 1;
   }

@@ -76,16 +76,19 @@ const BackToSideBar = styled(({ ...props }) => <IconButton {...props} />)`
   }
 `;
 
-const HeaderIcons = styled.div``;
+const HeaderIcons = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 const HeaderInfo = styled.div`
   flex: 1;
-  margin-left: 1em;
+  padding: 0 0.5em;
   > h3 {
     margin: 0;
     margin-top: 8px;
   }
   > p {
-    margin-top: 4px;
+    margin-top: 2px;
     color: grey;
   }
 `;

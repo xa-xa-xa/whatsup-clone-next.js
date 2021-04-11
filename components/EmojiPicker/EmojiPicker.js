@@ -23,6 +23,7 @@ const EmojiPicker = ({ setInput, inputRef, setOpenEmojiPicker }) => {
         set="apple"
         onSelect={(emoji) => insertEmoji(emoji)}
         showPreview={false}
+        showSkinTones={false}
         emojiTooltip={true}
       />
     </EmojiPickerContainer>
@@ -33,7 +34,7 @@ export default EmojiPicker;
 
 const EmojiPickerContainer = styled.div`
   position: absolute;
-  bottom: 48px;
-  left: 32px;
+  bottom: 60px;
+  left: 10px;
   z-index: 2;
 `;
