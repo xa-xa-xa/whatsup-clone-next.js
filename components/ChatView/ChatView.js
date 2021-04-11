@@ -13,6 +13,7 @@ import SendIcon from "@material-ui/icons/Send";
 import ChatViewHeader from "../ChatViewHeader/ChatViewHeader";
 import Message from "../Message/Message";
 import EmojiPicker from "../EmojiPicker/EmojiPicker";
+import breakPoints from "../../styles/breakPoints";
 
 const ChatView = ({ messages, chat }) => {
   const [user] = useAuthState(auth);
@@ -149,29 +150,37 @@ const EndOfMessages = styled.input`
 const Input = styled.input`
   align-items: center;
   padding: 10px;
+  min-width: 0;
   flex: 1;
   border: none;
   border-radius: 8px;
   font-size: 1.25em;
   bottom: 0;
-  margin: 0 15px;
+  margin: 0 5px;
   background: whitesmoke;
+  @media screen and (${breakPoints.device.sm}) {
+    margin: 0 15px;
+  }
 `;
 
 const InputContainer = styled.form`
   display: flex;
-  padding: 10px;
-  /* position: sticky; */
-  width: 100%;
+  padding: 5px;
+  position: sticky;
+  @media screen and (${breakPoints.device.sm}) {
+    padding: 10px;
+    margin: 0 15px;
+  }
 `;
 
 const MessagesContainer = styled.section`
   padding: 30px;
   background-color: #e5ded8;
   overflow-y: scroll;
-  height: calc(100vh - 160px);
+  height: calc(100vh - 150px);
+  @media screen and (${breakPoints.device.sm}) {
+    height: calc(100vh - 160px);
+  }
 `;
 
-const ChatViewContainer = styled.div`
-  width: 100%;
-`;
+const ChatViewContainer = styled.div``;
