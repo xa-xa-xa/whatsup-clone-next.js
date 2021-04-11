@@ -12,8 +12,8 @@ export default Loading;
 
 const breatheAnimation = keyframes`
  0% { height: 5px; width: 5px; }
- 30% { height: 400px; width: 400px; opacity: 1 }
- 40% { height: 405px; width: 405px; opacity: 0.3; }
+ 30% { height: 300px; width: 300px; opacity: 1 }
+ 40% { height: 305px; width: 305px; opacity: 0.3; }
  100% { height: 5px; width: 5px; opacity: 0.6; }
 `;
 const Circle = styled.div`

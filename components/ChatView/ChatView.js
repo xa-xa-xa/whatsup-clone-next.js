@@ -100,7 +100,7 @@ const ChatView = ({ messages, chat }) => {
 
   // render
   return (
-    <div>
+    <ChatViewContainer>
       <ChatViewHeader user={user} chat={chat} />
       <MessagesContainer>
         {renderMessages()}
@@ -134,7 +134,7 @@ const ChatView = ({ messages, chat }) => {
           {/* <MicIcon /> */}
         </IconButton>
       </InputContainer>
-    </div>
+    </ChatViewContainer>
   );
 };
 
@@ -161,7 +161,8 @@ const Input = styled.input`
 const InputContainer = styled.form`
   display: flex;
   padding: 10px;
-  /* position: absolute; */
+  /* position: sticky; */
+  width: 100%;
 `;
 
 const MessagesContainer = styled.section`
@@ -171,5 +172,6 @@ const MessagesContainer = styled.section`
   height: calc(100vh - 160px);
 `;
 
-const ChatViewContainer = styled.div(`
-`);
+const ChatViewContainer = styled.div`
+  width: 100%;
+`;
