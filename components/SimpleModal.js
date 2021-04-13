@@ -1,12 +1,14 @@
 import {useEffect, useState} from 'react';
 import {makeStyles, createStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import {Button} from '@material-ui/core';
 
 function getModalStyle() {
   const top = 50;
   const left = 50;
 
   return {
+    textAlign: "center",
     top: `${top}%`,
     left: `${left}%`,
     transform: `translate(-${top}%, -${left}%)`,
@@ -37,20 +39,23 @@ export default function SimpleModal({open, onClose, text, title}) {
 
 
   const body = (
-    <div style={modalStyle} className={classes.paper}>
+    <modalBody style={modalStyle} className={classes.paper}>
       <h2 id={`simple-modal-${title}`}>{title}</h2>
       <p id={`simple-modal-${text}`}>
         {text}
       </p>
-      <button type="button" onClick={onClose}>
+      <Button
+        type="button"
+        variant="contained"
+        disableElevation
+        onClick={onClose}>
         close
-      </button>
+      </Button>
       <SimpleModal />
-    </div>
+    </modalBody>
   );
 
   return (
-    <section style={{textAlign: "center"}}>
       <Modal
         open={open}
         onClose={onClose}
@@ -58,7 +63,6 @@ export default function SimpleModal({open, onClose, text, title}) {
         aria-describedby={`simple-modal-${text}`}
       >
         {body}
-      </Modal>
-    </section>
+    </Modal>
   );
 }
