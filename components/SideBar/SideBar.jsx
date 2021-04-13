@@ -1,19 +1,22 @@
-import { Avatar, IconButton, Button, ButtonBase } from "@material-ui/core";
-import styled from "styled-components";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import ChatIcon from "@material-ui/icons/Chat";
-import SearchIcon from "@material-ui/icons/Search";
+import {useContext, useState} from "react";
 import * as EmailValidator from "email-validator";
 import { auth, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import Chat from "../Chat/Chat";
+import SimpleModal from "../SimpleModal";
+import {Context} from "../../store/reactStore";
+import {Avatar, IconButton, Button, Modal} from "@material-ui/core";
+import styled from "styled-components";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import ChatIcon from "@material-ui/icons/Chat";
+import SearchIcon from "@material-ui/icons/Search";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
-import { useContext } from "react";
-import { Context } from "../../store/reactStore";
 
 const SideBar = () => {
+  const [errorModal, setErrorModal] = useState({open: false, text: ""});
+
   const [user] = useAuthState(auth);
   const userChatRef = db
     .collection("chats")
@@ -28,12 +31,12 @@ const SideBar = () => {
     if (!input) return;
 
     if (input === user.email) {
-      alert("You cannot initiate chat with yourself!");
+      setErrorModal({open: true, text: "You cannot initiate chat with yourself!"});
       return;
     }
 
     if (!EmailValidator.validate(input)) {
-      alert("Please enter a valid email.");
+      setErrorModal({open: true, text: "Please enter  a valid email address"});
       return;
     }
 
@@ -41,6 +44,9 @@ const SideBar = () => {
       db.collection("chats").add({
         users: [user.email, input]
       });
+    } else {
+      setErrorModal({open: true, text: `Chat "${input}" already exists!`});
+      return;
     }
   }
 
@@ -81,7 +87,10 @@ const SideBar = () => {
   );
 
   const [{ showSidebar }, dispatch] = useContext(Context);
-  const handleDrawerToggle = () => dispatch({ type: "TOGGLE_SIDEBAR" });
+  const handleDrawerToggle = () => dispatch({type: "TOGGLE_SIDEBAR"});
+  const handleCloseErrorModal = () => {
+    setErrorModal({text: "", title: "", open: false});
+  };
 
   // Render
   return (
@@ -104,6 +113,11 @@ const SideBar = () => {
           {sideBar}
         </Drawer>
       </Hidden>
+      <SimpleModal title="Error" text={errorModal.text}
+        open={errorModal.open}
+        onClose={handleCloseErrorModal}
+
+      />
     </>
   );
 };

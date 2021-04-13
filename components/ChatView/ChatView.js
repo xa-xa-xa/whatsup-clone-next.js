@@ -101,7 +101,7 @@ const ChatView = ({ messages, chat }) => {
 
   // render
   return (
-    <ChatViewContainer>
+    <>
       <ChatViewHeader user={user} chat={chat} />
       <MessagesContainer>
         {renderMessages()}
@@ -135,7 +135,7 @@ const ChatView = ({ messages, chat }) => {
           {/* <MicIcon /> */}
         </IconButton>
       </InputContainer>
-    </ChatViewContainer>
+    </>
   );
 };
 
@@ -182,4 +182,3 @@ const MessagesContainer = styled.section`
   }
 `;
 
-const ChatViewContainer = styled.div``;
