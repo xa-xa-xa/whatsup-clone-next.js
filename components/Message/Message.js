@@ -42,6 +42,8 @@ const MessageElement = styled.div`
   border-radius: 8px;
   margin-bottom: 10px;
   position: relative;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.025), 0 2px 1px -1px rgba(0,0,0,0.025), 0 1px 3px 0 rgba(0,0,0,0.025);
+
   &:before {
     content: '';
     position: absolute;
