@@ -56,9 +56,9 @@ const ChatViewHeader = ({ user, chat }) => {
         ) : null}
       </HeaderInfo>
       <HeaderIcons>
-        <IconButton>
+        {/* <IconButton>
           <AttachFile />
-        </IconButton>
+        </IconButton> */}
         <IconButton>
           <MoreVert />
         </IconButton>
@@ -94,7 +94,7 @@ const HeaderInfo = styled.div`
 `;
 
 const HeaderContainer = styled.div`
-  height: 90px;
+  height: 80px;
   border-bottom: 1px solid whitesmoke;
   display: flex;
   position: sticky;

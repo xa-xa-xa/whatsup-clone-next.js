@@ -79,8 +79,6 @@ const SideBar = () => {
   //   onClose(value);
   // };
 
-
-
   const sideBar = (
     <SideBarContainer>
       <Header>
@@ -220,7 +218,7 @@ const Search = styled.section`
 `;
 const IconsContainer = styled.div`
   width: 40px;
-  margin-right: -15px;
+  margin-right: -5px;
 `;
 
 const CurrentUser = styled.div`
@@ -238,7 +236,6 @@ const Header = styled.section`
   z-index: 1;
   justify-content: space-between;
   align-items: center;
-  margin: 10px;
   padding: 15px;
   height: 80px;
   border-bottom: 1px solid whitesmoke;

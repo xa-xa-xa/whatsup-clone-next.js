@@ -165,10 +165,11 @@ const Input = styled.input`
 
 const InputContainer = styled.form`
   display: flex;
-  padding: 5px;
+  padding: 10px;
   position: sticky;
   @media screen and (${breakPoints.device.sm}) {
-    padding: 10px;
+    padding: 5px;
+
   }
 `;
 
@@ -178,7 +179,7 @@ const MessagesContainer = styled.section`
   overflow-y: scroll;
   height: calc(100vh - 150px);
   @media screen and (${breakPoints.device.sm}) {
-    height: calc(100vh - 160px);
+    height: calc(100vh - 135px);
   }
 `;
 
