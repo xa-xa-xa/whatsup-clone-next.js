@@ -1,10 +1,10 @@
 // import { Avatar } from "@material-ui/core";
-import { useAuthState } from "react-firebase-hooks/auth";
+import {useAuthState} from "react-firebase-hooks/auth";
 import styled from "styled-components";
-import { auth } from "../../firebase";
+import {auth} from "../../firebase";
 // import getTimeFromTimeStamp from "../../utils/getTimeFromTimeStamp";
 
-const Message = ({ user, message }) => {
+const Message = ({user, message}) => {
   const [userLoggedIn] = useAuthState(auth);
   const TypeOfMessage = user === userLoggedIn.email ? Sender : Receiver;
   const timeHM = new Date(message.timestamp).toLocaleTimeString([], {
@@ -28,29 +28,49 @@ export default Message;
 const TimeStamp = styled.span`
   color: gray;
   font-size: 0.5em;
-  position: absolute;
-  text-align: center;
-  right: 10px;
-  bottom: 5px;
+  width: fit-content;
+  align-self: flex-end;
+  margin-bottom: -4px;
 `;
 
-const MessageElement = styled.p`
-  min-width: 4em;
+const MessageElement = styled.div`
+  display: flex;
+  flex-direction: column;
   width: fit-content;
+  max-width: 85%;
   padding: 12px;
   border-radius: 8px;
-  margin: 10px;
-  padding-bottom: 1em;
+  margin-bottom: 10px;
   position: relative;
-  text-align: center;
+  &:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 0;
+    border-style: solid;
+    border-color: transparent;
+  }
 `;
 const Sender = styled(MessageElement)`
+  &:before {
+    right: -6px;
+    border-width: 20px 16px 0 0;
+    border-top-color: #dcf8c6;
+    }
   margin-left: auto;
   background-color: #dcf8c6;
+  border-radius: 6px;
 `;
 const Receiver = styled(MessageElement)`
   margin-right: auto;
   background-color: whitesmoke;
+  border-radius: 6px;
+  &:before {
+    left: -6px;
+    border-width: 0 16px 20px 0;
+    border-right-color: whitesmoke;
+    }
 `;
 
 const Container = styled.div`
