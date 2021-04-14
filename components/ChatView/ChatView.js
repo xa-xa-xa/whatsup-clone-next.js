@@ -101,7 +101,7 @@ const ChatView = ({ messages, chat }) => {
 
   // render
   return (
-    <>
+    <ChatContainer>
       <ChatViewHeader user={user} chat={chat} />
       <MessagesContainer>
         {renderMessages()}
@@ -135,7 +135,7 @@ const ChatView = ({ messages, chat }) => {
           {/* <MicIcon /> */}
         </IconButton>
       </InputContainer>
-    </>
+    </ChatContainer>
   );
 };
 
@@ -179,6 +179,23 @@ const MessagesContainer = styled.section`
   height: calc(100vh - 150px);
   @media screen and (${breakPoints.device.sm}) {
     height: calc(100vh - 160px);
+  }
+`;
+
+const ChatContainer = styled.section`
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  --ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  overflow: scroll;
+  width: calc(100% - 325px);
+  float: right;
+  /* border: 2px dashed green; */
+
+  @media screen and (${breakPoints.device.sm}) {
+    width: 100%;
+    /* border: 2px solid green; */
   }
 `;
 

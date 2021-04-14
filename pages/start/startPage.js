@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
+import breakPoints from '../../styles/breakPoints';
 
 
 const StartPage = () => {
@@ -14,9 +15,9 @@ const StartPage = () => {
       <p>
         Welcome to <span>WhatsUp Clone</span>
       </p>
-      <p>
-        Push <b>New Chat</b> button to add your opponent to the chat.
-      </p>
+      <section>
+        Push <b>New Chat</b> button to add your opponent to the chat or choose tap click on existing chat.
+      </section>
     </StartPageContainer>
   );
 };
@@ -28,17 +29,28 @@ const StartPageContainer = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 30px;
+  text-align: center;
   background-color: #e5ded8;
-  height: 100%;
+  height: 100vh;
+  width: calc(100% - 325px);
+  float: right;
   > p {
     font-size: 1.5rem;
     > span {
-      font-size: 2rem;
-      color: #3cbc28;
-      font-weight: 600;
+      color:#3cbc28;
+      font-weight: 500;
+      }
     }
-    > b {
+  section {
+      font-size: 1rem;
+      > b {
       color: #53764d;
+      }
     }
+
+    @media screen and (${breakPoints.device.sm}) {
+      width: 50vw;
   }
+
 `;

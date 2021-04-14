@@ -41,25 +41,27 @@ const LogoContainer = styled.div`
 const LoginContainer = styled.div`
   display: grid;
   flex-direction: center;
+  width: 400px;
+  height: 300px;
+  padding: 30px 40px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 20px -5px rgba(0, 0, 0, 0.2);
+
+  @media screen and (${breakPoints.device.sm}) {
   width: 100vw;
   height: 50vh;
   padding: 50px;
-  @media screen and (${breakPoints.device.sm}) {
-    width: 400px;
-    height: 300px;
-    background-color: white;
-    padding: 30px 40px;
-    border-radius: 5px;
-    box-shadow: 0px 4px 20px -5px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  box-shadow: none;
+
   }
 `;
 const Container = styled.div`
-  display: grid;
-  place-items: center;
-  height: 100vh;
-  background-color: white;
-
-  @media screen and (${breakPoints.device.sm}) {
+    display: grid;
+    place-items: center;
     background-color: whitesmoke;
+    height: 100vh;
+  @media screen and (${breakPoints.device.sm}) {
+    background-color: white;
   }
 `;

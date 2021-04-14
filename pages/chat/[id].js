@@ -16,14 +16,8 @@ const ChatRoute = ({ chat, messages }) => {
         <title>Opponent: {getOpponentsEmail(chat.users, user)}</title>
         <link rel="icon" href="/fakeLogo.png" />
       </Head>
-      <Container>
-        <SideBarContainer>
-          <SideBar />
-        </SideBarContainer>
-        <ChatContainer>
-          <ChatView messages={messages} chat={chat} />
-        </ChatContainer>
-      </Container>
+      <SideBar />
+      <ChatView messages={messages} chat={chat} />
     </>
   );
 };
@@ -52,27 +46,3 @@ export async function getServerSideProps(context) {
     props: { messages: JSON.stringify(messages), chat: chat }
   };
 }
-
-// STYLES
-const SideBarContainer = styled.section`
-  @media screen and (${breakPoints.device.sm}) {
-    width: 280px;
-  }
-`;
-const ChatContainer = styled.section`
-  ::-webkit-scrollbar {
-    display: none;
-  }
-  --ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  overflow: scroll;
-  width: 100vw;
-  @media screen and (${breakPoints.device.sm}) {
-    flex: 1;
-  }
-`;
-
-const Container = styled.div`
-  display: flex;
-  width: 100vw;
-`;
