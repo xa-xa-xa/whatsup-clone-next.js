@@ -9,13 +9,12 @@ import {Context} from "../../store/reactStore";
 import {Avatar, IconButton, Button, Modal, List, ListItem, ButtonBase, Popover} from "@material-ui/core";
 import styled from "styled-components";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import ChatIcon from "@material-ui/icons/Chat";
+// import ChatIcon from "@material-ui/icons/Chat";
 import SearchIcon from "@material-ui/icons/Search";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
-import {Close, Title} from '@material-ui/icons';
+import breakPoints from '../../styles/breakPoints';
 
 
 const SideBar = () => {
@@ -83,7 +82,7 @@ const SideBar = () => {
 
 
   const sideBar = (
-    <>
+    <SideBarContainer>
       <Header>
         <CurrentUser>
           <UserAvatar src={user.photoURL} />
@@ -150,7 +149,7 @@ const SideBar = () => {
           />;
         })}
       </ContactsContainer>
-    </>
+    </SideBarContainer>
   );
 
   const [{showSidebar}, dispatch] = useContext(Context);
@@ -193,7 +192,8 @@ export default SideBar;
 const CreateChatButton = styled(({...props}) => (
   <Button {...props} variant="contained" disableElevation={true} />
 ))`
-  width: 100%;
+  width: 99%;
+  left: 0.5%;
   & .label {
   }
   &&& {
@@ -252,4 +252,12 @@ const ContactsContainer = styled.section`
   }
   -ms-overflow-style: none;
   scrollbar-width: none;
+`;
+
+const SideBarContainer = styled.section`
+    width: 325px;
+
+  @media screen and (${breakPoints.device.sm}) {
+    width: 100vw;
+  }
 `;
