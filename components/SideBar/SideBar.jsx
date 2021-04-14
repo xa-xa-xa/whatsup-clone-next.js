@@ -3,7 +3,7 @@ import * as EmailValidator from "email-validator";
 import { auth, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
-import Chat from "../Chat/Chat";
+import ChatListItem from "../ChatListItem/ChatListItem";
 import SimpleModal from "../SimpleModal";
 import {Context} from "../../store/reactStore";
 import {Avatar, IconButton, Button, Modal} from "@material-ui/core";
@@ -18,10 +18,10 @@ const SideBar = () => {
   const [errorModal, setErrorModal] = useState({open: false, text: ""});
 
   const [user] = useAuthState(auth);
-  const userChatRef = db
+  const userChatsRef = db
     .collection("chats")
     .where("users", "array-contains", user.email);
-  const [chatsSnapshot] = useCollection(userChatRef);
+  const [chatsSnapshot] = useCollection(userChatsRef);
 
   function createChat() {
     const input = prompt(
@@ -57,6 +57,11 @@ const SideBar = () => {
     );
   };
 
+  const [searchQuery, setSearchQuery] = useState(null);
+  const onSearchQuery = (e = null) => {
+    setSearchQuery(e)
+  }
+
   const sideBar = (
     <>
       <Header>
@@ -75,12 +80,29 @@ const SideBar = () => {
       </Header>
       <Search>
         <SearchIcon />
-        <SearchInput placeholder="search" />
+        <SearchInput
+          type="search"
+          placeholder="search"
+          onChange={(e) => onSearchQuery(e.target.value)}
+        />
       </Search>
       <CreateChatButton onClick={createChat}>New chat</CreateChatButton>
       <ContactsContainer>
         {chatsSnapshot?.docs.map((chat) => {
-          return <Chat key={chat.id} id={chat.id} users={chat.data().users} />;
+          const users = chat.data().users;
+          const opponentsEmail = users.find(item => item !== user.email);
+          const match = opponentsEmail.includes(searchQuery);
+          const matchedUsers = [user.email, match];
+
+          if (!match && searchQuery) return null;
+          return <ChatListItem
+            key={chat.id}
+            id={chat.id}
+            currentUser={user}
+            opponentsEmail={opponentsEmail}
+            users={searchQuery ? matchedUsers : users}
+            setSearchQuery={setSearchQuery}
+          />;
         })}
       </ContactsContainer>
     </>
