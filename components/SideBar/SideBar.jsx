@@ -62,7 +62,7 @@ const SideBar = () => {
 
   const [searchQuery, setSearchQuery] = useState(null);
   const onSearchQuery = (e = null) => {
-    setSearchQuery(e)
+    setSearchQuery(e.toLowerCase());
   }
 
   // Logout Popover
