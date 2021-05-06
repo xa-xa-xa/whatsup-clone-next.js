@@ -14,6 +14,8 @@ import ChatViewHeader from "../ChatViewHeader/ChatViewHeader";
 import Message from "../Message/Message";
 import EmojiPicker from "../EmojiPicker/EmojiPicker";
 import breakPoints from "../../styles/breakPoints";
+import Loading from "../Loading";
+
 
 const ChatView = ({ messages, chat }) => {
   const [user] = useAuthState(auth);
@@ -22,7 +24,7 @@ const ChatView = ({ messages, chat }) => {
   const [bottom, setBottom] = useState(null);
   const [input, setInput] = useState("");
   const route = useRouter();
-  const [messagesSnapshot] = useCollection(
+  const [messagesSnapshot, loading, error] = useCollection(
     db
       .collection("chats")
       .doc(route.query.id)
@@ -104,6 +106,8 @@ const ChatView = ({ messages, chat }) => {
     <ChatContainer>
       <ChatViewHeader user={user} chat={chat} />
       <MessagesContainer>
+        {error && <h6>something went wrong...</h6>}
+        {loading && <Loading />}
         {renderMessages()}
         <EndOfMessages ref={setAndScrollToBottomRef} />
       </MessagesContainer>
